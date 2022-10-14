@@ -12,10 +12,12 @@ import java.net.URL;
 //package it.polito.tdp.DeSeriisRoberta;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.DeSeriisRoberta.model.Model;
 import it.polito.tdp.DeSeriisRoberta.model.RendimentoRegione;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -68,53 +70,74 @@ public class FXMLController {
     @FXML // fx:id="txtResult"
     private TableView<RendimentoRegione> txtResult;
 
+    public boolean flagFotovoltaico = false; 
+    public boolean flagEolico = false; 
     @FXML
     void doRendimentoEolico(ActionEvent event) {
     	//sistemare formula rendimento
+    	flagEolico=true;
     	if(this.cmbAreaDiRiferimento.getValue().compareTo("Italia")==0) {
-    		for(RendimentoRegione r: model.calcolaRendimento(model.getRegioni())){
+    		List<RendimentoRegione> rendimento = model.calcolaRendimento(model.getRegioni());
+    		for(RendimentoRegione r: rendimento){
     			System.out.println(r.getRegione()+" "+r.getRendimentoEol()+"\n");
+    			txtResult.setItems(FXCollections.observableArrayList(rendimento));
+    			
     		}
     	}
     	
     	if(this.cmbAreaDiRiferimento.getValue().compareTo("Italia: PS")==0) {
-    		for(RendimentoRegione r: model.statoRegioni("PS")){
+    		List<RendimentoRegione> rendimento = model.statoRegioni("PS");
+    		for(RendimentoRegione r: rendimento){
     			System.out.println(r.getRegione()+" "+r.getRendimentoEol()+"\n");
+    			txtResult.setItems(FXCollections.observableArrayList(rendimento));
     		}
     	}
     	if(this.cmbAreaDiRiferimento.getValue().compareTo("Italia: MS")==0) {
-    		for(RendimentoRegione r: model.statoRegioni("MS")){
+    		List<RendimentoRegione> rendimento = model.statoRegioni("MS");
+    		for(RendimentoRegione r: rendimento){
     			System.out.println(r.getRegione()+" "+r.getRendimentoEol()+"\n");
+    			txtResult.setItems(FXCollections.observableArrayList(rendimento));
     		}
     	}
     	if(this.cmbAreaDiRiferimento.getValue().compareTo("Italia: IT")==0) {
-    		for(RendimentoRegione r: model.statoRegioni("IT")){
+    		List<RendimentoRegione> rendimento = model.statoRegioni("IT");
+    		for(RendimentoRegione r: rendimento){
     			System.out.println(r.getRegione()+" "+r.getRendimentoEol()+"\n");
+    			txtResult.setItems(FXCollections.observableArrayList(rendimento));
     		}
     	}
     }
 
     @FXML
     void doRendimentoFotovoltaico(ActionEvent event) {
+    	 flagFotovoltaico= true;
     	if(this.cmbAreaDiRiferimento.getValue().compareTo("Italia")==0) {
-    		for(RendimentoRegione r: model.calcolaRendimento(model.getRegioni())){
-    			System.out.println(r.getRegione()+" "+r.getRendimentoEol()+"\n");
+    		List<RendimentoRegione> rendimento = model.calcolaRendimento(model.getRegioni());
+    		for(RendimentoRegione r: rendimento){
+    			System.out.println(r.getRegione()+" "+r.getRendimentoSol()+"\n"); 
+    			txtResult.setItems(FXCollections.observableArrayList(rendimento));
     		}
     	}
     	
     	if(this.cmbAreaDiRiferimento.getValue().compareTo("Italia: PS")==0) {
-    		for(RendimentoRegione r: model.statoRegioni("PS")){
+    		List<RendimentoRegione> rendimento = model.statoRegioni("PS");
+    		for(RendimentoRegione r: rendimento){
     			System.out.println(r.getRegione()+" "+r.getRendimentoEol()+"\n");
+    			txtResult.setItems(FXCollections.observableArrayList(rendimento));
     		}
     	}
     	if(this.cmbAreaDiRiferimento.getValue().compareTo("Italia: MS")==0) {
-    		for(RendimentoRegione r: model.statoRegioni("MS")){
+    		List<RendimentoRegione> rendimento = model.statoRegioni("MS");
+    		for(RendimentoRegione r: rendimento){
     			System.out.println(r.getRegione()+" "+r.getRendimentoEol()+"\n");
+    			txtResult.setItems(FXCollections.observableArrayList(rendimento));
     		}
     	}
     	if(this.cmbAreaDiRiferimento.getValue().compareTo("Italia: IT")==0) {
-    		for(RendimentoRegione r: model.statoRegioni("IT")){
+    		List<RendimentoRegione> rendimento = model.statoRegioni("IT");
+    		for(RendimentoRegione r: rendimento){
     			System.out.println(r.getRegione()+" "+r.getRendimentoEol()+"\n");
+    			txtResult.setItems(FXCollections.observableArrayList(rendimento));
     		}
     	}
     }
@@ -142,13 +165,13 @@ public class FXMLController {
         assert clRendimentoEolico != null : "fx:id=\"clRendimentoEolico\" was not injected: check your FXML file 'Scene.fxml'.";
         assert clRendimentoSolareFotovoltaico != null : "fx:id=\"clRendimentoSolareFotovoltaico\" was not injected: check your FXML file 'Scene.fxml'.";
         
-       //if(this.boxParamRicorsione!=null)
-       // clRegione.setCellValueFactory(new PropertyValueFactory<RendimentoRegione, String>("regione")); NON FUNZIONA QUESTA RIGA
+        if(this.flagEolico== true || this.flagFotovoltaico==true)
+        clRegione.setCellValueFactory(new PropertyValueFactory<RendimentoRegione, String>("regione")); //NON FUNZIONA QUESTA RIGA
 		
-        if(this.boxParamRicorsione.getValue()=="Eolico") { //correggere 
+        if(this.flagFotovoltaico==true) { //correggere 
 		clRendimentoEolico.setCellValueFactory(new PropertyValueFactory<RendimentoRegione, Double>("rendimentoEol"));
 		}
-		if(this.boxParamRicorsione.getValue()=="Fotovoltaico") { //correggere 
+		if(this.flagEolico== true) { //correggere 
 		clRendimentoSolareFotovoltaico.setCellValueFactory(new PropertyValueFactory<RendimentoRegione, Double>("rendimentoSol"));
 		}
     }
