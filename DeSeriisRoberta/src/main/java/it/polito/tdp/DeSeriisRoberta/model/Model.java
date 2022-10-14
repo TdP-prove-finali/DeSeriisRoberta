@@ -1,7 +1,7 @@
 package it.polito.tdp.DeSeriisRoberta.model;
 
 import java.util.ArrayList;
-
+import java.util.LinkedList;
 import java.util.List;
 
 import it.polito.tdp.DeSeriisRoberta.db.EnergiaDAO;
@@ -14,6 +14,8 @@ public class Model {
 	List <RendimentoRegione> regioniSelezionate;
 	double rendimentoEol; 
 	double rendimentoFot; 
+	List<String> migliore; 
+	double budget=0;
 	
 	
 	public List<RendimentoRegione> getRegioni() {
@@ -47,13 +49,12 @@ public class Model {
 			
 		return regioni;
 	}
-	
-	//meglio metodo a parte
-	public List<RendimentoRegione> statoRegioni(String tipo) { //in base alla tipologia di regioni selezionata
+
+	//in base alla tipologia di regioni selezionata
+	public List<RendimentoRegione> statoRegioni(String tipo) { 
 		regioniItalia = dao.getRegioni();
 		 regioniSelezionate = new ArrayList<>(); 
 		//regioni=dao.getTipoRegioni(tipo); per le regioni +/-/in transiizone 
-		//NON SO SE IL FILTRO SUL TIPO DI REGIONE è MEGLIO FARLO SU DB O IN JAVA
 		for (RendimentoRegione r: regioniItalia) {
 			if(r.getTipoRegione().compareTo(tipo)==0) {
 				regioniSelezionate.add(r);
@@ -78,10 +79,11 @@ public class Model {
 	private void cercaRicorsiva(List<String> parziale, String dest) {
 		 
 		//condizione di terminazione
-		if(parziale.get(parziale.size()-1).equals(dest))
-		{
+		if(budget==0)
+		{ //ora ce lo teniamo
+		//suddivisione per regione, per rendimento attuale e poi per numero comuni 
 			int pesoParziale = pesoTot(parziale);
-			if(pesoParziale > pesoTot(migliore))//la strada piú lunga é la migliore
+			if(pesoParziale > pesoTot(migliore))  //la strada piú lunga é la migliore
 			{
 				migliore = new LinkedList<>(parziale);
 			}

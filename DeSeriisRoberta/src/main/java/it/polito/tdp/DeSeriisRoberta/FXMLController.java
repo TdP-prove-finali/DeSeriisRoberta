@@ -20,8 +20,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class FXMLController {
 	private Model model; 
@@ -33,7 +35,7 @@ public class FXMLController {
     private URL location;
 
     @FXML // fx:id="boxParamRicorsione"
-    private ChoiceBox<?> boxParamRicorsione; // Value injected by FXMLLoader
+    private ChoiceBox<String> boxParamRicorsione; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnAvvia"
     private Button btnAvvia; // Value injected by FXMLLoader
@@ -53,12 +55,22 @@ public class FXMLController {
     @FXML // fx:id="txtBudget"
     private TextField txtBudget; // Value injected by FXMLLoader
 
+    @FXML // fx:id="clRegione"
+    private TableColumn<RendimentoRegione, String> clRegione; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="clRendimentoEolico"
+    private TableColumn<RendimentoRegione, Double> clRendimentoEolico; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="clRendimentoSolareFotovoltaico"
+    private TableColumn<RendimentoRegione, Double> clRendimentoSolareFotovoltaico; 
+    
+    
     @FXML // fx:id="txtResult"
-    private TableView<String> txtResult; // Value injected by FXMLLoader
+    private TableView<RendimentoRegione> txtResult;
 
     @FXML
     void doRendimentoEolico(ActionEvent event) {
-//sistemare formula rendimento
+    	//sistemare formula rendimento
     	if(this.cmbAreaDiRiferimento.getValue().compareTo("Italia")==0) {
     		for(RendimentoRegione r: model.calcolaRendimento(model.getRegioni())){
     			System.out.println(r.getRegione()+" "+r.getRendimentoEol()+"\n");
@@ -126,8 +138,19 @@ public class FXMLController {
         assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'Scene.fxml'.";
         assert cmbAreaDiRiferimento != null : "fx:id=\"cmbAreaDiRiferimento\" was not injected: check your FXML file 'Scene.fxml'.";
         assert txtBudget != null : "fx:id=\"txtBudget\" was not injected: check your FXML file 'Scene.fxml'.";
-        assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
-
+        assert clRegione != null : "fx:id=\"clRegione\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert clRendimentoEolico != null : "fx:id=\"clRendimentoEolico\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert clRendimentoSolareFotovoltaico != null : "fx:id=\"clRendimentoSolareFotovoltaico\" was not injected: check your FXML file 'Scene.fxml'.";
+        
+       //if(this.boxParamRicorsione!=null)
+       // clRegione.setCellValueFactory(new PropertyValueFactory<RendimentoRegione, String>("regione")); NON FUNZIONA QUESTA RIGA
+		
+        if(this.boxParamRicorsione.getValue()=="Eolico") { //correggere 
+		clRendimentoEolico.setCellValueFactory(new PropertyValueFactory<RendimentoRegione, Double>("rendimentoEol"));
+		}
+		if(this.boxParamRicorsione.getValue()=="Fotovoltaico") { //correggere 
+		clRendimentoSolareFotovoltaico.setCellValueFactory(new PropertyValueFactory<RendimentoRegione, Double>("rendimentoSol"));
+		}
     }
 
 
@@ -139,6 +162,10 @@ public class FXMLController {
     	this.cmbAreaDiRiferimento.getItems().add("Italia: PS");
     	this.cmbAreaDiRiferimento.getItems().add("Italia: MS");
     	this.cmbAreaDiRiferimento.getItems().add("Italia: IT");
+    	
+    	this.boxParamRicorsione.getItems().add("Eolico");
+    	this.boxParamRicorsione.getItems().add("Solare Fotovoltaico");
+    	this.boxParamRicorsione.getItems().add("Eolico e Solare Fotovoltaico");
     }
 }
 
