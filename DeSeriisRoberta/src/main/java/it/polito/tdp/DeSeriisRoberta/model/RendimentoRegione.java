@@ -11,6 +11,9 @@ public class RendimentoRegione {
 	private double rendimentoSol; 
 	private String tipoRegione; 
 	
+	
+
+
 	public RendimentoRegione(String regione, double prodFotovoltaico, double prodEolico, double potEolico,
 			double potFotovoltaico, String tipoRegione) {
 		super();
@@ -19,15 +22,7 @@ public class RendimentoRegione {
 		this.prodEolico = prodEolico;
 		this.potEolico = potEolico;
 		this.potFotovoltaico = potFotovoltaico;
-		this.tipoRegione= tipoRegione; 
-	}
-
-	public String getRegione() {
-		return regione;
-	}
-
-	public void setRegione(String regione) {
-		this.regione = regione;
+		this.tipoRegione = tipoRegione;
 	}
 
 	public double getProdFotovoltaico() {
@@ -61,24 +56,7 @@ public class RendimentoRegione {
 	public void setPotFotovoltaico(double potFotovoltaico) {
 		this.potFotovoltaico = potFotovoltaico;
 	}
-
 	
-
-	public double getRendimentoEol() {
-		return rendimentoEol;
-	}
-
-	public void setRendimentoEol(double rendimentoEol) {
-		this.rendimentoEol = rendimentoEol;
-	}
-
-	public double getRendimentoSol() {
-		return rendimentoSol;
-	}
-
-	public void setRendimentoSol(double rendimentoSol) {
-		this.rendimentoSol = rendimentoSol;
-	}
 
 	public String getTipoRegione() {
 		return tipoRegione;
@@ -87,6 +65,38 @@ public class RendimentoRegione {
 	public void setTipoRegione(String tipoRegione) {
 		this.tipoRegione = tipoRegione;
 	}
+
+
+	public void setRegione(String regione) {
+		this.regione = regione;
+	}
+
+
+	public void setRendimentoEol(double rendimentoEol) {
+		this.rendimentoEol = rendimentoEol;
+	}
+
+
+	public void setRendimentoSol(double rendimentoSol) {
+		this.rendimentoSol = rendimentoSol;
+	}
+
+
+	public String getRegione() {
+		return regione;
+	}
+
+
+	public double getRendimentoEol() {
+		return rendimentoEol;
+	}
+
+
+	public double getRendimentoSol() {
+		return rendimentoSol;
+	}
+	
+	
 	
 	
 	
