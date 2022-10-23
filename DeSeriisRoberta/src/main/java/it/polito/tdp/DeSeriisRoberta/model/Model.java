@@ -1,177 +1,265 @@
 package it.polito.tdp.DeSeriisRoberta.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import it.polito.tdp.DeSeriisRoberta.db.EnergiaDAO;
 
 public class Model {
 	
 	EnergiaDAO dao; 
-	List <RendimentoRegione> regioniItalia; 
-	List<RendimentoRegione> reg; 
-	List <RendimentoRegione> regioniSelezionate;
-	double rendimentoEol; 
-	double rendimentoFot; 
-	List<Risultato> migliore; 
-	double budget=0;
+	Map<String, Regione> idMap;
+	List <Regione> regioniItalia; 
+	List<Regione> reg; 
+	List <Regione> regioniSelezionate;
+	List<Regione> miglioreE;
+	List<Regione> miglioreS;
+	double aM;
 	
 	
-	public List<RendimentoRegione> getRegioni() {
-		return dao.getRegioni();
+	public List<Regione> getRegioni() {
+		return dao.getAllRegioni();
 	}
 
 	public Model() {
 		this.dao= new EnergiaDAO(); 
 	}
 
-	public List<RendimentoRegione> calcolaRendimentoSolare(List<RendimentoRegione> regioni) {
-		//calcolare il rendimento di tutte le regioni italiane
-		//calcolare il rendimento delle regioni +/- sviluppate e in transizione
-		//calcolare il rendimento di tutte le regioni suddivise per statoRegione
-		
-	
-		for (RendimentoRegione r: regioni) {
-			if (r.getPotEolico()>0 && r.getPotFotovoltaico()>0) {
-			rendimentoFot= ((r.getProdFotovoltaico()*1000)/(24*365))/r.getPotFotovoltaico();
-			r.setRendimentoSol(rendimentoFot);
+	public List<Regione> calcolaProduzioneFotovoltaicoComune(List<Regione> regioni){
+		double produzioneFotComunale;
+		for (Regione r: regioni) {
+			if(r.getProdNEElett_Eol_GWh()>0) {
+				produzioneFotComunale= r.getProdNEElett_Fot_GWh()/r.getComuniTot(); 
+				r.setProdFotovoltaicoPerComune(produzioneFotComunale);
 			}
-			else if(r.getPotFotovoltaico()==0) {
-				rendimentoFot=0; 
-			}
+			else
+				produzioneFotComunale=0; 
 		}
-		
-		return regioni;
-	}
-	public List<RendimentoRegione> calcolaRendimentoEolico(List<RendimentoRegione> regioni) {
-		//calcolare il rendimento di tutte le regioni italiane
-		//calcolare il rendimento delle regioni +/- sviluppate e in transizione
-		//calcolare il rendimento di tutte le regioni suddivise per statoRegione
-		
-	
-		for (RendimentoRegione r: regioni) {
-			if (r.getPotEolico()>0 && r.getPotFotovoltaico()>0) {
-			rendimentoEol= ((r.getProdEolico()*1000)/(24*365))/r.getPotEolico(); 
-			r.setRendimentoEol(rendimentoEol);
-			}
-			else if(r.getPotEolico()==0) {
-				rendimentoEol=0; 
-			}
-		}
-		reg = new LinkedList<RendimentoRegione>(regioni);	
-		return regioni;
+		reg = new LinkedList<Regione>(regioni);
+		return regioni; 
 	}
 	
-	public List<Risultato> calcolaRendimentoEolicoR(List<Risultato> regioni) {
-		//calcolare il rendimento di tutte le regioni italiane
-		//calcolare il rendimento delle regioni +/- sviluppate e in transizione
-		//calcolare il rendimento di tutte le regioni suddivise per statoRegione
-		
-	
-		for (Risultato r: regioni) {
-			if (r.getR().getPotEolico()>0) {
-			rendimentoEol= ((r.getR().getProdEolico()*1000)/(24*365))/r.getR().getPotEolico(); 
-			r.getR().setRendimentoEol(rendimentoEol);
+	public List<Regione> calcolaProduzioneEolicoComune(List<Regione> regioni){
+		double produzioneEolComunale;
+		for (Regione r: regioni) {
+			if(r.getProdNEElett_Eol_GWh()>0) {
+				produzioneEolComunale= r.getProdNEElett_Eol_GWh()/r.getComuniTot(); 
+				r.setProdEolicoPerComune(produzioneEolComunale);
 			}
-			else if(r.getR().getPotEolico()==0) {
-				rendimentoEol=0; 
-			}
+			else
+				produzioneEolComunale=0; 
 		}
-			
-		return regioni;
+		reg = new LinkedList<Regione>(regioni);
+		return regioni; 
 	}
-
+	
 	//in base alla tipologia di regioni selezionata
-	public List<RendimentoRegione> statoRegioni(String tipo) { 
-		regioniItalia = dao.getRegioni();
+	public List<Regione> statoRegioni(String tipo) { 
+		regioniItalia = dao.getAllRegioni();
 		 regioniSelezionate = new ArrayList<>(); 
-		//regioni=dao.getTipoRegioni(tipo); per le regioni +/-/in transiizone 
-		for (RendimentoRegione r: regioniItalia) {
-			if(r.getTipoRegione().compareTo(tipo)==0) {
+		for (Regione r: regioniItalia) {
+			if(r.getStatoRegione().compareTo(tipo)==0) {
 				regioniSelezionate.add(r);
 			}
 		}
-		System.out.println(regioniSelezionate.size());
-		this.calcolaRendimentoSolare(regioniSelezionate);
-		this.calcolaRendimentoEolico(regioniSelezionate);
+		this.calcolaProduzioneFotovoltaicoComune(regioniSelezionate);
+		this.calcolaProduzioneEolicoComune(regioniSelezionate);
 		
 		return regioniSelezionate;
 	}
 	
 	
-	public List<Risultato> calcolaBudget(double budget)
+	public List<Regione> cercaMiglioreEOL (int n)
 	{
+		miglioreE = new LinkedList<Regione>();
+		aM = 999999999;
 		
-		List<Risultato> parziale = new LinkedList<>();
-		System.out.println(reg.size());
-		for(RendimentoRegione r:reg)
-		{
-			parziale.add(new Risultato(r, 0));
-		}
-		migliore = new LinkedList<Risultato>(parziale);
-		cercaRicorsiva(parziale, budget);
-		return migliore;
-	} 
+		List<Regione> parziale = new LinkedList<Regione>();
+		
+		cercaMeglioEOL(parziale,0,n);
+		
+		return miglioreE;
+		
+	}
 	
-	private void cercaRicorsiva(List<Risultato> parziale, double budget) {
-		 
-		if(budget<=0)
-		{
-			this.aggiornaRendimenti(parziale);
-			double scartoParziale = calcolaScarto(parziale);
-			double scartoMigliore = calcolaScarto(migliore);
-			if(scartoParziale < scartoMigliore)  
-			{
-				migliore = new LinkedList<>(parziale);
-			}
+	public List<Regione> cercaMiglioreSOL (int n)
+	{
+		miglioreS = new LinkedList<Regione>();
+		aM = 999999999;
+		
+		List<Regione> parziale = new LinkedList<Regione>();
+		
+		cercaMeglioSOL(parziale,0,n);
+		
+		return miglioreS;
+		
+	}
+	
+
+
+	private void cercaMeglioEOL(List<Regione> parziale, int L, int n) {
+		
+		int sommaComuni = sommaComuni(parziale);
+		
+		if(sommaComuni>n)
 			return;
+		
+		if(sommaComuni != 0 && sommaComuni <= n)
+		{
+			double param = calcolaParamEOL(parziale);
+			if(param < aM && sommaComuni > sommaComuni(miglioreE))
+			{
+				miglioreE = new LinkedList<Regione>(parziale);
+				aM = param;
+			}
 		}
 		
-		for(Risultato r: parziale) //scorro sui vicini dell'ultimo nodo sulla lista
+		if(L == reg.size())
 		{
-				double budgetDaAssegnare = calcolaBudgetDaAssegnare(r);
-				r.setBudgetAssegnato(r.getBudgetAssegnato() + budgetDaAssegnare);
-				budget = budget - budgetDaAssegnare;
-				cercaRicorsiva(parziale, budget);
-				r.setBudgetAssegnato(r.getBudgetAssegnato() - budgetDaAssegnare);
-				budget = budget + budgetDaAssegnare;
+			
+				return;
 		}
+		
+		if(reg.get(L).getProdEolicoPerComune()>0)
+		{
+			parziale.add(reg.get(L));
+			this.cercaMeglioEOL(parziale, L+1, n);
+			
+			parziale.remove(reg.get(L));
+			this.cercaMeglioEOL(parziale, L+1, n);
+		}
+		
+	}
 
+private double calcolaParamEOL(List<Regione> parziale) {
+	
+	double s = 0;
+	double nC = 0;
+	
+	for (Regione r:parziale) {
+		
+		s += r.getProdEolicoPerComune();
+		nC += r.getComuniTot();
+	}
+	
+	return (s/nC);
 }
 
-		private double calcolaBudgetDaAssegnare(Risultato r) {
-			
-		return 10000000;
+private int sommaComuni(List<Regione> parziale) {
+	
+	int nCom = 0;
+	for(Regione r:parziale)
+	{
+		nCom += r.getComuniMeno5000();
 	}
+	return nCom;
+}
 
-		private void aggiornaRendimenti(List<Risultato> parziale) {
-			
-			for(Risultato p:parziale)
-			{
-				p.getR().setProdEolico(p.getR().getProdEolico()*3);  //3 Kw ogni 1000 euro
-			}
-			
-			this.calcolaRendimentoEolicoR(parziale);
+
+private void cercaMeglioSOL(List<Regione> parziale, int L, int n) {
+	
+	int sommaComuni = sommaComuni(parziale);
+	
+	if(sommaComuni>n)
+		return;
+	
+	if(sommaComuni != 0 && sommaComuni <= n)
+	{
+		double param = calcolaParamSOL(parziale);
+		if(param < aM && sommaComuni > sommaComuni(miglioreS))
+		{
+			miglioreS = new LinkedList<Regione>(parziale);
+			aM = param;
+		}
+	}
+	
+	if(L == reg.size())
+	{
 		
+			return;
 	}
-
-		private double calcolaScarto(List<Risultato> parziale) {
-			
-			double scarto = 0;
+	
+	if(reg.get(L).getProdFotovoltaicoPerComune()>0)
+	{
+		parziale.add(reg.get(L));
+		this.cercaMeglioSOL(parziale, L+1, n);
 		
-			for(Risultato r:parziale)
-			{
-				for(Risultato r1:parziale)
-				{
-					scarto += Math.abs(r.getR().getRendimentoEol() - r1.getR().getRendimentoEol());
-				}
-			}
-			
-			
-			return scarto;
+		parziale.remove(reg.get(L));
+		this.cercaMeglioSOL(parziale, L+1, n);
 	}
+	
+}
 
+private double calcolaParamSOL(List<Regione> parziale) {
+	
+	double s = 0;
+	double nC = 0;
+	
+	for (Regione r:parziale) {
+		
+		s += r.getProdFotovoltaicoPerComune();
+		nC += r.getComuniTot();
+	}
+	
+	return s/nC;
+}
+
+public Map<Regione,String> EolFot(int n)
+{
+	
+	this.cercaMiglioreEOL(n);
+	this.cercaMiglioreSOL(n);
+	Map<Regione, String> mista = new HashMap<Regione, String>();
+	for(Regione r:this.miglioreE)
+	{
+		if(r.getProdEolicoPerComune()<r.getProdFotovoltaicoPerComune())
+		{
+			mista.put(r, "EOLICO");
+		}
+		else
+		{
+			mista.put(r, "FOTOVOLTAICO");
+		}
+	}
+	
+	for(Regione r:this.miglioreS)
+	{
+		if(r.getProdEolicoPerComune()<r.getProdFotovoltaicoPerComune())
+		{
+			mista.put(r, "EOLICO");
+		}
+		else
+		{
+			mista.put(r, "FOTOVOLTAICO");
+		}
+	}
+	return mista;
+}
+
+public List<Regione> getMiglioreE() {
+	return miglioreE;
+}
+
+public List<Regione> getMiglioreS() {
+	return miglioreS;
+}
+
+public double calcolaBudget (float budget, List<Regione> migliore)
+{
+	int nComuni = 0;
+	float budgetAssegnato = 0;
+	for(Regione r:migliore)
+	{
+		nComuni += r.getComuniMeno5000();
+	}
+	budgetAssegnato = (budget/nComuni);
+	return budgetAssegnato;
+	
+	
+}
 
 
 }

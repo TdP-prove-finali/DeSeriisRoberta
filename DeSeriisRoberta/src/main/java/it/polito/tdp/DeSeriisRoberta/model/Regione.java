@@ -1,5 +1,7 @@
 package it.polito.tdp.DeSeriisRoberta.model;
 
+import java.util.Objects;
+
 public class Regione {
 	
 	private String regione;
@@ -19,12 +21,17 @@ public class Regione {
 	private double consumeCopE;
 	private double consumiCopS;
 	private String statoRegione;
+	private int ComuniMeno5000;
+	private int ComuniTot;
+	private double prodFotovoltaicoPerComune;
+	private double prodEolicoPerComune;
+	
 	
 	
 	public Regione(String regione, double prodTotNElett_GWh, double prodNEElett_Fot_GWh,
 			double prodNEElett_Eol_GWh, double potEffLordaPerc, double potEffLordaEol_MW, double potEffLordaFot_MW,
 			 double potenzaEfficienteLordaTotale_MW, int numImpiantiEol, int numImpiantiFot, int famiglie, int superficieCA, int popolazioneRM, int consumiFLE,
-			double consumeCopE, double consumiCopS, String statoRegione) {
+			double consumeCopE, double consumiCopS, String statoRegione, int ComuniMeno5000, int ComuniTot) {
 		
 		this.regione = regione;
 		this.prodTotNElett_GWh = prodTotNElett_GWh;
@@ -43,6 +50,9 @@ public class Regione {
 		this.consumeCopE = consumeCopE;
 		this.consumiCopS = consumiCopS;
 		this.statoRegione = statoRegione;
+		this.ComuniMeno5000 = ComuniMeno5000;
+		this.ComuniTot= ComuniTot;
+		
 	}
 	public String getRegione() {
 		return regione;
@@ -147,6 +157,40 @@ public class Regione {
 	public void setStatoRegione(String statoRegione) {
 		this.statoRegione = statoRegione;
 	}
+	public int getComuniMeno5000() {
+		return ComuniMeno5000;
+	}
+	public void setComuniMeno5000(int comuniMeno5000) {
+		ComuniMeno5000 = comuniMeno5000;
+	}
+	public int getComuniTot() {
+		return ComuniTot;
+	}
+	public void setComuniTot(int comuniTot) {
+		ComuniTot = comuniTot;
+	}
+	public double getProdFotovoltaicoPerComune() {
+		return prodFotovoltaicoPerComune;
+	}
+	public void setProdFotovoltaicoPerComune(double prodFotovoltaicoPerComune) {
+		this.prodFotovoltaicoPerComune = prodFotovoltaicoPerComune;
+	}
+	public double getProdEolicoPerComune() {
+		return prodEolicoPerComune;
+	}
+	public void setProdEolicoPerComune(double prodEolicoPerComune) {
+		this.prodEolicoPerComune = prodEolicoPerComune;
+	}
+	@Override
+	public String toString() {
+		return  regione;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(regione);
+	}
+	
+	
 	
 	
 

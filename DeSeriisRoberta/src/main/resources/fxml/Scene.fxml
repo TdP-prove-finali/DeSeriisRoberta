@@ -22,12 +22,12 @@
    <top>
       <HBox alignment="BOTTOM_LEFT" maxHeight="118.0" prefHeight="59.0" prefWidth="851.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="E&amp;CER" wrappingWidth="170.50933837890625">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ECER" wrappingWidth="170.50933837890625">
                <font>
                   <Font name="Times New Roman" size="50.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Energia &amp; Comunità Energetiche Rinnovabili" wrappingWidth="445.9140634536743">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Energia e Comunità Energetiche Rinnovabili" wrappingWidth="445.9140634536743">
                <font>
                   <Font name="Times New Roman Italic" size="24.0" />
                </font>
@@ -61,7 +61,7 @@
             <Separator prefWidth="200.0" />
             <HBox alignment="CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" Rendimento" wrappingWidth="111.32968139648438">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Produzione per Comune" wrappingWidth="210.52977752685547">
                      <font>
                         <Font name="Times New Roman Bold" size="20.0" />
                      </font>
@@ -95,34 +95,18 @@
                   </Separator>
                   <VBox prefHeight="54.0" prefWidth="394.0">
                      <children>
-                        <Button fx:id="btnRendimentoFotovoltico" defaultButton="true" mnemonicParsing="false" onAction="#doRendimentoFotovoltaico" opacity="0.5" prefHeight="12.0" prefWidth="194.0" text="Calcola Rendimento Fotovoltaico ">
+                        <Button fx:id="btnProduzioneTot" defaultButton="true" mnemonicParsing="false" onAction="#doProduzionetot" opacity="0.5" prefHeight="26.0" prefWidth="266.0" text="Calcola Produzione">
                            <effect>
                               <ColorAdjust brightness="-0.18" contrast="0.19" hue="-0.52" />
                            </effect>
                            <VBox.margin>
-                              <Insets bottom="7.0" left="200.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button fx:id="btnRendimentoEolico" defaultButton="true" mnemonicParsing="false" onAction="#doRendimentoEolico" opacity="0.5" prefHeight="34.0" prefWidth="164.0" text="Calcola Rendimento Eolico">
-                           <effect>
-                              <ColorAdjust brightness="-0.18" contrast="0.19" hue="-0.52" />
-                           </effect>
-                           <VBox.margin>
-                              <Insets bottom="7.0" left="230.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button fx:id="btnRendimentoTot" defaultButton="true" mnemonicParsing="false" onAction="#doRendimentotot" opacity="0.5" text="Calcola Rendimento Tot">
-                           <effect>
-                              <ColorAdjust brightness="-0.18" contrast="0.19" hue="-0.52" />
-                           </effect>
-                           <VBox.margin>
-                              <Insets left="250.0" />
+                              <Insets left="270.0" top="25.0" />
                            </VBox.margin>
                         </Button>
                      </children>
                   </VBox>
                </children></HBox>
-            <Separator prefHeight="20.0" prefWidth="811.0">
+            <Separator prefHeight="6.0" prefWidth="811.0">
                <VBox.margin>
                   <Insets top="2.0" />
                </VBox.margin></Separator>
@@ -144,13 +128,13 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="403.0" spacing="5.0">
                            <children>
-                              <Label minWidth="136.0" prefWidth="137.0" text="Budget di finanziamento: " />
-                              <TextField fx:id="txtBudget" prefHeight="22.0" prefWidth="152.0">
+                              <Label minWidth="136.0" prefWidth="137.0" text="Numero di comuni:" />
+                              <TextField fx:id="txtNumeroComuni" prefHeight="27.0" prefWidth="114.0">
                                  <HBox.margin>
-                                    <Insets bottom="5.0" left="155.0" right="5.0" top="5.0" />
+                                    <Insets bottom="5.0" left="150.0" top="5.0" />
                                  </HBox.margin>
                                  <padding>
-                                    <Insets left="65.0" top="5.0" />
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </TextField>
                            </children>
@@ -158,13 +142,10 @@
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
                               <Label minWidth="220.0" prefWidth="220.0" text="Massimizzare la produzione di:" />
-                              <ChoiceBox fx:id="boxParamRicorsione" disable="true" prefHeight="26.0" prefWidth="113.0">
+                              <ChoiceBox fx:id="boxParamRicorsione" prefHeight="26.0" prefWidth="113.0">
                                  <HBox.margin>
                                     <Insets left="77.0" />
-                                 </HBox.margin>
-                                 <padding>
-                                    <Insets left="65.0" />
-                                 </padding></ChoiceBox>
+                                 </HBox.margin></ChoiceBox>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="5.0" />
@@ -177,7 +158,18 @@
                   <VBox prefHeight="51.0" prefWidth="400.0">
                      <children>
                         <HBox alignment="CENTER_LEFT" spacing="5.0" />
-                        <HBox prefHeight="22.0" prefWidth="400.0" />
+                        <HBox prefHeight="22.0" prefWidth="400.0">
+                           <children>
+                              <Label minWidth="136.0" prefHeight="18.0" prefWidth="126.0" text="Budget di finanziamento: " />
+                              <TextField fx:id="txtBudget">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets left="160.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children></HBox>
                         <HBox prefHeight="10.0" prefWidth="400.0">
                            <VBox.margin>
                               <Insets />
@@ -188,38 +180,34 @@
                               <ColorAdjust brightness="-0.18" contrast="0.19" hue="-0.52" />
                            </effect>
                            <VBox.margin>
-                              <Insets left="295.0" top="5.0" />
+                              <Insets left="295.0" top="2.0" />
                            </VBox.margin>
                         </Button>
                      </children>
                   </VBox>
                </children></HBox>
             <Separator prefHeight="0.0" prefWidth="820.0" />
-            <TextArea fx:id="txtResult" editable="false" prefHeight="22.0" prefWidth="811.0">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Output " wrappingWidth="69.64605712890625">
+               <font>
+                  <Font name="Times New Roman Bold" size="20.0" />
+               </font>
                <VBox.margin>
-                  <Insets top="5.0" />
+                  <Insets left="376.0" />
                </VBox.margin>
-            </TextArea>
-            <HBox alignment="CENTER" prefHeight="15.0" prefWidth="811.0">
+            </Text>
+            <HBox alignment="CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Output " wrappingWidth="69.64605712890625">
-                     <font>
-                        <Font name="Times New Roman Bold" size="20.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="15.0" />
-                     </HBox.margin>
-                  </Text>
+                  <TextArea fx:id="txtResult" editable="false" prefHeight="66.0" prefWidth="811.0" />
                </children>
             </HBox>
-            <TableView fx:id="tblOutput" prefHeight="95.0" prefWidth="811.0">
+            <TableView fx:id="tblOutput" prefHeight="82.0" prefWidth="811.0">
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
                   <TableColumn fx:id="clRegione" prefWidth="75.0" text="Regione" />
-                  <TableColumn fx:id="clRendimentoSolareFotovoltaico" prefWidth="75.0" text="Rendimento Solare Fotovoltaico" />
-                  <TableColumn fx:id="clRendimentoEolico" editable="false" prefWidth="261.60003662109375" text="Rendimento Eolico" />
+                  <TableColumn fx:id="clProdSolareFotovoltaico" prefWidth="75.0" text="Produzione Fotovoltaico per Comune (GWh)" />
+                  <TableColumn fx:id="clProdEolico" editable="false" prefWidth="261.60003662109375" text="Produzione Eolico per Comune (GWh)" />
                </columns>
             </TableView>
             <HBox alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="811.0" spacing="10.0">
