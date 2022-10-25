@@ -6,6 +6,7 @@ package it.polito.tdp.DeSeriisRoberta;
 
 
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -75,79 +76,12 @@ public class FXMLController {
     String areaScelta;
     String produzioneDi;
   
-    /*
-    @FXML
-    void doRendimentoEolico(ActionEvent event) {
-    	//sistemare formula rendimento
-    	txtResult.clear();
-
-    	String areaScelta = this.cmbAreaDiRiferimento.getValue();
-    	
-    	if(areaScelta==null) {
-    		txtResult.appendText("Seleziona un area di riferimento");
-    		return;
-    	}
-    	
-    	if(areaScelta.compareTo("Italia")==0) {
-    		List<Regione> produzioneC = model.getRegioni();
-    		model.calcolaProduzioneEolicoComune(produzioneC);
-    		tblOutput.setItems(FXCollections.observableArrayList(produzioneC));
-    	}
-    	
-    	if(areaScelta.compareTo("Italia: PS")==0) {
-    		List<Regione> produzioneC = model.statoRegioni("PS");
-    			tblOutput.setItems(FXCollections.observableArrayList(produzioneC));
-    	}
-    	if(areaScelta.compareTo("Italia: MS")==0) {
-    		List<Regione> produzioneC = model.statoRegioni("MS");
-    			tblOutput.setItems(FXCollections.observableArrayList(produzioneC));
-    	}
-    	if(areaScelta.compareTo("Italia: IT")==0) {
-    		List<Regione> produzioneC = model.statoRegioni("IT");
-    			tblOutput.setItems(FXCollections.observableArrayList(produzioneC));
-    	}
-    }
-
-    @FXML
-    void doRendimentoFotovoltaico(ActionEvent event) {
-    	 txtResult.clear();
-    	 
-    	 String areaScelta = this.cmbAreaDiRiferimento.getValue();
-     	
-     	if(areaScelta==null) {
-     		txtResult.appendText("Seleziona un area di riferimento");
-     		return;
-     	}
-     	
-    	if(areaScelta.compareTo("Italia")==0) {
-    		List<Regione> produzioneC = model.calcolaProduzioneFotovoltaicoComune(model.getRegioni());
-    		tblOutput.setItems(FXCollections.observableArrayList(produzioneC));
-    	}
-    	
-    	if(areaScelta.compareTo("Italia: PS")==0) {
-    		List<Regione> produzioneC = model.statoRegioni("PS");
-    			tblOutput.setItems(FXCollections.observableArrayList(produzioneC));
-    	}
-    	
-    	if(areaScelta.compareTo("Italia: MS")==0) {
-    		List<Regione> produzioneC = model.statoRegioni("MS");
-    			tblOutput.setItems(FXCollections.observableArrayList(produzioneC));
-    	}
-    	
-    	if(areaScelta.compareTo("Italia: IT")==0) {
-    		List<Regione> produzioneC = model.statoRegioni("IT");
-    			tblOutput.setItems(FXCollections.observableArrayList(produzioneC));
-    	}
-    }
-    */
-   
-    
     
     @FXML
     void doProduzionetot(ActionEvent event) {
     	txtResult.clear();
+    	
     	produzione=true;
-
     	areaScelta = this.cmbAreaDiRiferimento.getValue();
     	
 		this.btnProduzioneTot.setDisable(false);
@@ -183,6 +117,8 @@ public class FXMLController {
 
     @FXML
     void doReset(ActionEvent event) {
+    	txtResult.clear();
+    	this.tblOutput.getItems().clear();
 
     }
 
@@ -198,9 +134,13 @@ public class FXMLController {
     	try {
     		numeroComuni=Integer.parseInt(this.txtNumeroComuni.getText());
     		budgetFinanziamento=Float.parseFloat(this.txtBudget.getText());
+    		if (this.boxParamRicorsione.getValue() == null) {
+    			txtResult.appendText("Selezionare il tipo di produzione da massimizzare\n");
+    			return;
+    		}
     	}catch(NumberFormatException e) {
     		txtResult.clear();
-    		txtResult.appendText("Inserire numero Regioni e budget validi");
+    		txtResult.appendText("Inserire numero Comuni e budget validi");
     		return;
     	}
     	if(areaScelta==null) {
@@ -212,28 +152,45 @@ public class FXMLController {
     	}
 		
     	if(produzioneDi.compareTo("Eolico")==0) {
-    		//far restituire solo la produzione Eolica, modificare toString
-    		txtResult.appendText("Regioni a cui assegnare i finaniamenti per l'Eolico:\n");
+    		float budgetAssegnato=0;
+    		txtResult.appendText("Regioni a cui assegnare i finanziamenti per l'Eolico:\n");
+    		
     		for(Regione r: model.cercaMiglioreEOL(numeroComuni)) {
-        		txtResult.appendText(r+ " " + r.getComuniMeno5000() + " ");
-        		txtResult.appendText("Budget assegnato "+ model.calcolaBudget(budgetFinanziamento, model.cercaMiglioreEOL(numeroComuni))*r.getComuniMeno5000() + "\n");
+    			budgetAssegnato=model.calcolaBudget(budgetFinanziamento, model.cercaMiglioreEOL(numeroComuni))*r.getComuniMeno5000();
+        		txtResult.appendText(r+ ", " + r.getComuniMeno5000() + " comuni, ");
+        		txtResult.appendText("budget assegnato: "+ String.format("%,.2f",BigDecimal.valueOf(budgetAssegnato)) + " €\n");
         	}
     	}
     	if(produzioneDi.compareTo("Fotovoltaico")==0) {
-    		//far restituire solo la produzione Solare, modificare toString
-    		txtResult.appendText("Regioni a cui assegnare i finaniamenti per il Solare Fotovoltaico:\n");
+    		float budgetAssegnato=0;
+    		txtResult.appendText("Regioni a cui assegnare i finanziamenti per il Solare Fotovoltaico:\n");
+    		
     		for(Regione r: model.cercaMiglioreSOL(numeroComuni)) {
-    			txtResult.appendText(r+ " " + r.getComuniMeno5000() + " ");
-        		txtResult.appendText("BUDGET assegnato: "+ model.calcolaBudget(budgetFinanziamento, model.cercaMiglioreSOL(numeroComuni))*r.getComuniMeno5000()+ "\n");
+    			txtResult.appendText(r+ ", " + r.getComuniMeno5000() + " comuni, " );
+    			budgetAssegnato=model.calcolaBudget(budgetFinanziamento, model.cercaMiglioreSOL(numeroComuni))*r.getComuniMeno5000();
+        		txtResult.appendText("budget assegnato: "+ String.format("%,.2f", BigDecimal.valueOf(budgetAssegnato))+ " €\n");
         	}
     		
     	}
     	if(produzioneDi.compareTo("Eolico e Fotovoltaico")==0) {
+    		float budgetDaAssegnare=Float.parseFloat(this.txtBudget.getText());
+    		float budgetAssegnato=0;
+    		float budgetTot=0;
+    		int sumComuni=0;
+    		numeroComuni=Integer.parseInt(this.txtNumeroComuni.getText());
+    		
     		Map<Regione, String> mista = model.EolFot(numeroComuni);
-    		txtResult.appendText("Regioni a cui assegnare i finaniamenti:\n");
+    		txtResult.appendText("Regioni a cui assegnare i finanziamenti:\n");
     		//per trovare la soluzione migliore per entrambi tra solare ed eolico
     		for(Regione r: mista.keySet()) {
-        		txtResult.appendText(r + " " + r.getComuniMeno5000() + " " + mista.get(r)+"\n");
+    			sumComuni += r.getComuniMeno5000();
+    			budgetAssegnato=model.calcolaBudget(budgetFinanziamento, model.cercaMiglioreSOL(numeroComuni))*r.getComuniMeno5000();
+    			budgetTot += budgetAssegnato;
+    			if(sumComuni< numeroComuni && budgetTot< budgetDaAssegnare) { //controllare if
+        		txtResult.appendText(r + ", " + r.getComuniMeno5000() + " comuni, " + mista.get(r)+", ");
+        		txtResult.appendText("budget assegnato: "+ 
+						String.format("%,.2f", BigDecimal.valueOf(budgetAssegnato))+ " €\n");
+    			}
         	}
     	}
     	
@@ -255,10 +212,8 @@ public class FXMLController {
         assert txtNumeroComuni != null : "fx:id=\"txtNumeroComuni\" was not injected: check your FXML file 'Scene.fxml'.";
 
     
-        clRegione.setCellValueFactory(new PropertyValueFactory<Regione, String>("regione")); //NON FUNZIONA QUESTA RIGA
-       
+        clRegione.setCellValueFactory(new PropertyValueFactory<Regione, String>("regione")); 
 		clProdEolico.setCellValueFactory(new PropertyValueFactory<Regione, Double>("prodEolicoPerComune"));
-		
 		clProdSolareFotovoltaico.setCellValueFactory(new PropertyValueFactory<Regione, Double>("prodFotovoltaicoPerComune"));
         
     }
