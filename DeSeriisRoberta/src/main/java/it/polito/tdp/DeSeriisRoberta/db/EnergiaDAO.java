@@ -20,15 +20,14 @@ public class EnergiaDAO {
 			ResultSet res = st.executeQuery();
 
 			while (res.next()) {
-				result.add(new Regione(res.getString("regione"), res.getDouble("produzTotNEElettrica_GWh"), 
-						res.getDouble("prodTotNEElettrica_FOTOVOLTAICO_GWh"),  res.getDouble("prodTotNEElettrica_EOLICO_GWh"),
-						res.getDouble("potenzaEfficienteLorda%FER"), res.getDouble("potenzaEfficienteLordaEOLICO_MW"), 
-						res.getDouble("potenzaEfficienteLorda_SOLARE_MW"), res.getDouble("potenzaEfficienteLordaTotale_MW"),
-						res.getInt("numImpianti_EOLICI"), res.getInt("numImpianti _SOLARI"), 
-						res.getInt("FamiglieAllacciate"),res.getInt("SuperficieCentriAbitati_km^2"), 
-						res.getInt("popolazioneResidenteMedia"),res.getInt("consumiFinaliLordiEnergia_GWh"),
+				result.add(new Regione(res.getString("regione"), res.getDouble("produzTotNEElettrica"), 
+						res.getDouble("prodTotNEElettrica_FOTOVOLTAICO"),  res.getDouble("prodTotNEElettrica_EOLICO"),
+						res.getDouble("potenzaEfficienteLorda%FER"), res.getDouble("potenzaEfficienteLordaEOLICO"), 
+						res.getDouble("potenzaEfficienteLorda_FOTOVOLTAICO"), res.getDouble("potenzaEfficienteLordaTotale"), 
+						res.getInt("FamiglieAllacciate"),res.getInt("SuperficieCentriAbitati"), 
+						res.getInt("popolazioneResidenteMedia"),res.getInt("consumiFinaliLordiEnergia"),
 						res.getDouble("consumiCopertiDaImpiantiEol"),res.getDouble("consumiCopertiDaimpiantiSol"),
-						res.getString("statoRegione"),res.getInt("numeroComuniConMenoDi5000Ab"), res.getInt("numeroComuniTot")));
+						res.getString("statoRegione"),res.getInt("numeroComuniCon5000"), res.getInt("numeroComuniTot")));
 			}
 			
 			conn.close();

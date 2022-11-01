@@ -18,6 +18,8 @@ import it.polito.tdp.DeSeriisRoberta.db.EnergiaDAO;
 		List<Regione> miglioreE;
 		List<Regione> miglioreS;
 		double aM;
+		double aME;
+		double aMS;
 	
 	
 		public List<Regione> getRegioni() {
@@ -60,7 +62,7 @@ import it.polito.tdp.DeSeriisRoberta.db.EnergiaDAO;
 		}
 	
 		
-		//in base alla tipologia di regioni selezionata
+		
 		public List<Regione> statoRegioni(String tipo) { 
 			regioniItalia = dao.getAllRegioni();
 			regioniSelezionate = new ArrayList<>(); 
@@ -95,8 +97,20 @@ import it.polito.tdp.DeSeriisRoberta.db.EnergiaDAO;
 			cercaMeglioSOL(parziale,0,n);
 			return miglioreS;
 		}
-
-
+		
+		
+		public void cercaMigliore (int n) {
+			miglioreS = new LinkedList<Regione>();
+			miglioreE = new LinkedList<Regione>();
+			List<Regione> parzialeE = new LinkedList<Regione>();
+			List<Regione> parzialeS = new LinkedList<Regione>();
+			aME = 999999999;
+			aMS = 999999999;
+		
+			cercaMeglioSolEol(parzialeE, parzialeS ,0,n);
+		}
+		
+		
 		private void cercaMeglioEOL(List<Regione> parziale, int L, int n) {
 			int sommaComuni = sommaComuni(parziale);
 		
@@ -189,6 +203,50 @@ import it.polito.tdp.DeSeriisRoberta.db.EnergiaDAO;
 			return s/nC;
 		}
 
+		private void cercaMeglioSolEol(List<Regione> parzialeE, List<Regione> parzialeS, int L, int n) {
+			
+			int sommaComuniE = sommaComuni(parzialeE);
+			int sommaComuniS = sommaComuni(parzialeS);
+			
+			if(sommaComuniE + sommaComuniS > n)
+				return;
+		
+			if(sommaComuniE + sommaComuniS <= n) {
+				double paramE = calcolaParamEOL(parzialeE);
+				double paramS = calcolaParamSOL(parzialeS);
+				
+				if(paramE < aME ) {
+					miglioreE = new LinkedList<Regione>(parzialeE);
+					aME = paramE;
+				}
+				
+				if(paramS < aMS ) {
+					miglioreS = new LinkedList<Regione>(parzialeS);
+					aMS = paramS;
+				}
+			}
+			
+		
+			if(L == reg.size()) {
+				return;
+			}
+		
+			if(reg.get(L).getProdEolicoPerComune() < reg.get(L).getProdFotovoltaicoPerComune()) {
+				parzialeE.add(reg.get(L));
+				this.cercaMeglioSolEol(parzialeE, parzialeS, L+1, n);
+			
+				parzialeE.remove(reg.get(L));
+				this.cercaMeglioSolEol(parzialeE, parzialeS, L+1, n);
+			}
+			if (reg.get(L).getProdEolicoPerComune() > reg.get(L).getProdFotovoltaicoPerComune() && reg.get(L).getProdFotovoltaicoPerComune() != 0){
+				parzialeS.add(reg.get(L));
+				this.cercaMeglioSolEol(parzialeE, parzialeS, L+1, n);
+			
+				parzialeS.remove(reg.get(L));
+				this.cercaMeglioSolEol(parzialeE, parzialeS, L+1, n);
+			}
+		} 
+		
 		
 		public Map<Regione,String> EolFot(int n) {
 	

@@ -8,6 +8,7 @@ package it.polito.tdp.DeSeriisRoberta;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -172,29 +173,36 @@ public class FXMLController {
         	}
     		
     	}
+    	
     	if(produzioneDi.compareTo("Eolico e Fotovoltaico")==0) {
     		float budgetDaAssegnare=Float.parseFloat(this.txtBudget.getText());
     		float budgetAssegnato=0;
     		float budgetTot=0;
     		int sumComuni=0;
     		numeroComuni=Integer.parseInt(this.txtNumeroComuni.getText());
+    		model.cercaMigliore(numeroComuni);
     		
-    		Map<Regione, String> mista = model.EolFot(numeroComuni);
-    		txtResult.appendText("Regioni a cui assegnare i finanziamenti:\n");
+    		List<Regione> temporanea = new LinkedList<Regione>(model.getMiglioreE());
+    		temporanea.addAll(model.getMiglioreS());
+    		
+    		txtResult.appendText("Regioni a cui assegnare i finanziamenti per l'Eolico:\n");
     		//per trovare la soluzione migliore per entrambi tra solare ed eolico
-    		for(Regione r: mista.keySet()) {
-    			sumComuni += r.getComuniMeno5000();
-    			budgetAssegnato=model.calcolaBudget(budgetFinanziamento, model.cercaMiglioreSOL(numeroComuni))*r.getComuniMeno5000();
-    			budgetTot += budgetAssegnato;
-    			if(sumComuni< numeroComuni && budgetTot< budgetDaAssegnare) { //controllare if
-        		txtResult.appendText(r + ", " + r.getComuniMeno5000() + " comuni, " + mista.get(r)+", ");
-        		txtResult.appendText("budget assegnato: "+ 
-						String.format("%,.2f", BigDecimal.valueOf(budgetAssegnato))+ " €\n");
+    		for(Regione r: model.getMiglioreE()) {
+    			txtResult.appendText(r+ ", " + r.getComuniMeno5000() + " comuni, " );
+    			budgetAssegnato=model.calcolaBudget(budgetFinanziamento,temporanea)*r.getComuniMeno5000();
+        		txtResult.appendText("budget assegnato: "+ String.format("%,.2f", BigDecimal.valueOf(budgetAssegnato))+ " €\n");
     			}
+    		
+    		txtResult.appendText("\nRegioni a cui assegnare i finanziamenti per il Solare Fotovoltaico:\n");
+    		for(Regione r: model.getMiglioreS()) {
+    			txtResult.appendText(r+ ", " + r.getComuniMeno5000() + " comuni, " );
+    			budgetAssegnato=model.calcolaBudget(budgetFinanziamento, temporanea)*r.getComuniMeno5000();
+        		txtResult.appendText("budget assegnato: "+ String.format("%,.2f", BigDecimal.valueOf(budgetAssegnato))+ " €\n");
         	}
+    		
+    	}
     	}
     	
-    }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {

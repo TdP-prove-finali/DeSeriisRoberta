@@ -5,52 +5,48 @@ import java.util.Objects;
 public class Regione {
 	
 	private String regione;
-	private double prodTotNElett_GWh;
-	private double prodNEElett_Fot_GWh;
-	private double prodNEElett_Eol_GWh;
+	private double prodTotNettaEnergiaElett;
+	private double prodNettaEnergiaElettFotovoltaico;
+	private double prodNettaEnergiaElettEolico;
 	private double potEffLordaPerc;
-	private double potEffLordaEol_MW;
-	private double potEffLordaFot_MW;
-	private double potenzaEfficienteLordaTotale_MW;
-	private int numImpiantiEol;
-	private int numImpiantiFot;
+	private double potEffLordaEolico;
+	private double potEffLordaFotovoltaico;
+	private double potenzaEfficienteLordaTot;
 	private int famiglie; 
-	private int  superficieCA; 
-	private int popolazioneRM; 
-	private int consumiFLE;
-	private double consumeCopE;
-	private double consumiCopS;
+	private int  superficieCentriAbitati; 
+	private int popolazioneResidenteMedia; 
+	private int consumiFinaliLordiEnergia;
+	private double consumeCopertiDaImpiantiEolici;
+	private double consumiCopertiDaImpiantiFotovoltaici;
 	private String statoRegione;
-	private int ComuniMeno5000;
+	private int ComuniCon5000;
 	private int ComuniTot;
-	private double prodFotovoltaicoPerComune;
-	private double prodEolicoPerComune;
+	private double prodFotovoltaicaPerComune;
+	private double prodEolicaPerComune;
 	
 	
 	public Regione(String regione, double prodTotNElett_GWh, double prodNEElett_Fot_GWh,
 			 double prodNEElett_Eol_GWh, double potEffLordaPerc, double potEffLordaEol_MW, double potEffLordaFot_MW,
-			 double potenzaEfficienteLordaTotale_MW, int numImpiantiEol, int numImpiantiFot, int famiglie, 
+			 double potenzaEfficienteLordaTotale_MW, int famiglie, 
 			 int superficieCA, int popolazioneRM, int consumiFLE, double consumeCopE, 
 			 double consumiCopS, String statoRegione, int ComuniMeno5000, int ComuniTot) {
 		
 		this.regione = regione;
-		this.prodTotNElett_GWh = prodTotNElett_GWh;
-		this.prodNEElett_Fot_GWh = prodNEElett_Fot_GWh;
-		this.prodNEElett_Eol_GWh = prodNEElett_Eol_GWh;
+		this.prodTotNettaEnergiaElett = prodTotNElett_GWh;
+		this.prodNettaEnergiaElettFotovoltaico = prodNEElett_Fot_GWh;
+		this.prodNettaEnergiaElettEolico = prodNEElett_Eol_GWh;
 		this.potEffLordaPerc = potEffLordaPerc;
-		this.potEffLordaEol_MW = potEffLordaEol_MW;
-		this.potEffLordaFot_MW = potEffLordaFot_MW;
-		this.potenzaEfficienteLordaTotale_MW= potenzaEfficienteLordaTotale_MW;
-		this.numImpiantiEol = numImpiantiEol;
-		this.numImpiantiFot = numImpiantiFot;
+		this.potEffLordaEolico = potEffLordaEol_MW;
+		this.potEffLordaFotovoltaico = potEffLordaFot_MW;
+		this.potenzaEfficienteLordaTot= potenzaEfficienteLordaTotale_MW;
 		this.famiglie = famiglie;
-		this.superficieCA = superficieCA;
-		this.popolazioneRM = popolazioneRM;
-		this.consumiFLE = consumiFLE;
-		this.consumeCopE = consumeCopE;
-		this.consumiCopS = consumiCopS;
+		this.superficieCentriAbitati = superficieCA;
+		this.popolazioneResidenteMedia = popolazioneRM;
+		this.consumiFinaliLordiEnergia = consumiFLE;
+		this.consumeCopertiDaImpiantiEolici = consumeCopE;
+		this.consumiCopertiDaImpiantiFotovoltaici = consumiCopS;
 		this.statoRegione = statoRegione;
-		this.ComuniMeno5000 = ComuniMeno5000;
+		this.ComuniCon5000 = ComuniMeno5000;
 		this.ComuniTot= ComuniTot;
 		
 	}
@@ -64,27 +60,27 @@ public class Regione {
 	}
 	
 	public double getProdTotNElett_GWh() {
-		return prodTotNElett_GWh;
+		return prodTotNettaEnergiaElett;
 	}
 	
 	public void setProdTotNElett_GWh(double prodTotNElett_GWh) {
-		this.prodTotNElett_GWh = prodTotNElett_GWh;
+		this.prodTotNettaEnergiaElett = prodTotNElett_GWh;
 	}
 	
 	public double getProdNEElett_Fot_GWh() {
-		return prodNEElett_Fot_GWh;
+		return prodNettaEnergiaElettFotovoltaico;
 	}
 	
 	public void setProdNEElett_Fot_GWh(double prodNEElett_Fot_GWh) {
-		this.prodNEElett_Fot_GWh = prodNEElett_Fot_GWh;
+		this.prodNettaEnergiaElettFotovoltaico = prodNEElett_Fot_GWh;
 	}
 	
 	public double getProdNEElett_Eol_GWh() {
-		return prodNEElett_Eol_GWh;
+		return prodNettaEnergiaElettEolico;
 	}
 	
 	public void setProdNEElett_Eol_GWh(double prodNEElett_Eol_GWh) {
-		this.prodNEElett_Eol_GWh = prodNEElett_Eol_GWh;
+		this.prodNettaEnergiaElettEolico = prodNEElett_Eol_GWh;
 	}
 	
 	public double getPotEffLordaPerc() {
@@ -96,43 +92,27 @@ public class Regione {
 	}
 	
 	public double getPotEffLordaEol_MW() {
-		return potEffLordaEol_MW;
+		return potEffLordaEolico;
 	}
 	
 	public void setPotEffLordaEol_MW(double potEffLordaEol_MW) {
-		this.potEffLordaEol_MW = potEffLordaEol_MW;
+		this.potEffLordaEolico = potEffLordaEol_MW;
 	}
 	
 	public double getPotEffLordaFot_MW() {
-		return potEffLordaFot_MW;
+		return potEffLordaFotovoltaico;
 	}
 	
 	public void setPotEffLordaFot_MW(double potEffLordaFot_MW) {
-		this.potEffLordaFot_MW = potEffLordaFot_MW;
-	}
-	
-	public int getNumImpiantiEol() {
-		return numImpiantiEol;
-	}
-	
-	public void setNumImpiantiEol(int numImpiantiEol) {
-		this.numImpiantiEol = numImpiantiEol;
+		this.potEffLordaFotovoltaico = potEffLordaFot_MW;
 	}
 	
 	public double getPotenzaEfficienteLordaTotale_MW() {
-		return potenzaEfficienteLordaTotale_MW;
+		return potenzaEfficienteLordaTot;
 	}
 	
 	public void setPotenzaEfficienteLordaTotale_MW(double potenzaEfficienteLordaTotale_MW) {
-		this.potenzaEfficienteLordaTotale_MW = potenzaEfficienteLordaTotale_MW;
-	}
-	
-	public int getNumImpiantiFot() {
-		return numImpiantiFot;
-	}
-	
-	public void setNumImpiantiFot(int numImpiantiFot) {
-		this.numImpiantiFot = numImpiantiFot;
+		this.potenzaEfficienteLordaTot = potenzaEfficienteLordaTotale_MW;
 	}
 	
 	public int getFamiglie() {
@@ -144,43 +124,43 @@ public class Regione {
 	}
 	
 	public int getSuperficieCA() {
-		return superficieCA;
+		return superficieCentriAbitati;
 	}
 	
 	public void setSuperficieCA(int superficieCA) {
-		this.superficieCA = superficieCA;
+		this.superficieCentriAbitati = superficieCA;
 	}
 	
 	public int getPopolazioneRM() {
-		return popolazioneRM;
+		return popolazioneResidenteMedia;
 	}
 	
 	public void setPopolazioneRM(int popolazioneRM) {
-		this.popolazioneRM = popolazioneRM;
+		this.popolazioneResidenteMedia = popolazioneRM;
 	}
 	
 	public int getConsumiFLE() {
-		return consumiFLE;
+		return consumiFinaliLordiEnergia;
 	}
 	
 	public void setConsumiFLE(int consumiFLE) {
-		this.consumiFLE = consumiFLE;
+		this.consumiFinaliLordiEnergia = consumiFLE;
 	}
 	
 	public double getConsumeCopE() {
-		return consumeCopE;
+		return consumeCopertiDaImpiantiEolici;
 	}
 	
 	public void setConsumeCopE(double consumeCopE) {
-		this.consumeCopE = consumeCopE;
+		this.consumeCopertiDaImpiantiEolici = consumeCopE;
 	}
 	
 	public double getConsumiCopS() {
-		return consumiCopS;
+		return consumiCopertiDaImpiantiFotovoltaici;
 	}
 	
 	public void setConsumiCopS(double consumiCopS) {
-		this.consumiCopS = consumiCopS;
+		this.consumiCopertiDaImpiantiFotovoltaici = consumiCopS;
 	}
 	
 	public String getStatoRegione() {
@@ -192,11 +172,11 @@ public class Regione {
 	}
 	
 	public int getComuniMeno5000() {
-		return ComuniMeno5000;
+		return ComuniCon5000;
 	}
 	
 	public void setComuniMeno5000(int comuniMeno5000) {
-		ComuniMeno5000 = comuniMeno5000;
+		ComuniCon5000 = comuniMeno5000;
 	}
 	
 	public int getComuniTot() {
@@ -208,19 +188,19 @@ public class Regione {
 	}
 	
 	public double getProdFotovoltaicoPerComune() {
-		return prodFotovoltaicoPerComune;
+		return prodFotovoltaicaPerComune;
 	}
 	
 	public void setProdFotovoltaicoPerComune(double prodFotovoltaicoPerComune) {
-		this.prodFotovoltaicoPerComune = prodFotovoltaicoPerComune;
+		this.prodFotovoltaicaPerComune = prodFotovoltaicoPerComune;
 	}
 	
 	public double getProdEolicoPerComune() {
-		return prodEolicoPerComune;
+		return prodEolicaPerComune;
 	}
 	
 	public void setProdEolicoPerComune(double prodEolicoPerComune) {
-		this.prodEolicoPerComune = prodEolicoPerComune;
+		this.prodEolicaPerComune = prodEolicoPerComune;
 	}
 	
 	@Override
