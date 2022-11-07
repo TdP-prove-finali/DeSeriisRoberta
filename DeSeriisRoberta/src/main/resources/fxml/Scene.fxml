@@ -48,12 +48,12 @@
             <HBox alignment="CENTER_RIGHT" />
             <HBox>
                <children>
-                  <ImageView fitHeight="166.0" fitWidth="411.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="166.0" fitWidth="404.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Cattura1.PNG" />
                      </image>
                      <HBox.margin>
-                        <Insets bottom="10.0" left="225.0" right="150.0" />
+                        <Insets left="165.0" right="150.0" />
                      </HBox.margin>
                   </ImageView>
                </children>
@@ -80,10 +80,10 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
-                              <Label minWidth="136.0" prefWidth="137.0" text="Area di riferimento:" />
-                              <ChoiceBox fx:id="cmbAreaDiRiferimento" prefHeight="26.0" prefWidth="100.0">
+                              <Label minWidth="136.0" prefWidth="137.0" text="Area di riferimento" />
+                              <ChoiceBox fx:id="cmbAreaDiRiferimento" prefHeight="26.0" prefWidth="140.0">
                                  <HBox.margin>
-                                    <Insets left="159.0" />
+                                    <Insets left="120.0" />
                                  </HBox.margin></ChoiceBox>
                            </children>
                         </HBox>
@@ -103,7 +103,7 @@
                               <ColorAdjust brightness="-0.18" contrast="0.19" hue="-0.52" />
                            </effect>
                            <VBox.margin>
-                              <Insets left="230.0" />
+                              <Insets left="215.0" />
                            </VBox.margin>
                         </Button>
                      </children>
@@ -134,10 +134,10 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="26.0" spacing="5.0">
                            <children>
-                              <Label minWidth="136.0" prefWidth="137.0" text="Numero di comuni:" />
-                              <TextField fx:id="txtNumeroComuni" prefHeight="27.0" prefWidth="114.0">
+                              <Label minWidth="136.0" prefWidth="137.0" text="Numero di comuni" />
+                              <TextField fx:id="txtNumeroComuni" prefHeight="27.0" prefWidth="85.0">
                                  <HBox.margin>
-                                    <Insets bottom="5.0" left="150.0" top="5.0" />
+                                    <Insets bottom="5.0" left="120.0" top="5.0" />
                                  </HBox.margin>
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -147,10 +147,10 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
-                              <Label minWidth="220.0" prefWidth="220.0" text="Massimizzare la produzione di:" />
-                              <ChoiceBox fx:id="boxParamRicorsione" prefHeight="26.0" prefWidth="113.0">
+                              <Label minWidth="203.0" prefHeight="18.0" prefWidth="203.0" text="Produzione di" />
+                              <ChoiceBox fx:id="boxParamRicorsione" prefHeight="26.0" prefWidth="235.0">
                                  <HBox.margin>
-                                    <Insets left="77.0" />
+                                    <Insets />
                                  </HBox.margin></ChoiceBox>
                            </children>
                         </HBox>
@@ -166,13 +166,13 @@
                         <HBox alignment="CENTER_LEFT" spacing="5.0" />
                         <HBox prefHeight="22.0" prefWidth="400.0">
                            <children>
-                              <Label prefWidth="253.0" text="Budget di finanziamento (€)" />
+                              <Label prefHeight="18.0" prefWidth="286.0" text="Budget di finanziamento (€)" />
                               <TextField fx:id="txtBudget" prefHeight="27.0" prefWidth="192.0">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                                  <HBox.margin>
-                                    <Insets left="130.0" />
+                                    <Insets left="70.0" />
                                  </HBox.margin>
                               </TextField>
                            </children></HBox>
@@ -186,7 +186,7 @@
                               <ColorAdjust brightness="-0.18" contrast="0.19" hue="-0.52" />
                            </effect>
                            <VBox.margin>
-                              <Insets left="260.0" top="2.0" />
+                              <Insets left="230.0" top="2.0" />
                            </VBox.margin>
                         </Button>
                      </children>
@@ -198,7 +198,7 @@
                   <Font name="Times New Roman Bold" size="20.0" />
                </font>
                <VBox.margin>
-                  <Insets left="350.0" />
+                  <Insets left="320.0" />
                </VBox.margin>
             </Text>
             <HBox alignment="CENTER">
@@ -211,9 +211,9 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
-                  <TableColumn fx:id="clRegione" prefWidth="75.0" text="Regione" />
-                  <TableColumn fx:id="clProdSolareFotovoltaico" prefWidth="75.0" text="Produzione Fotovoltaico per Comune (GWh)" />
-                  <TableColumn fx:id="clProdEolico" editable="false" prefWidth="261.60003662109375" text="Produzione Eolico per Comune (GWh)" />
+                  <TableColumn fx:id="clRegione" prefWidth="220.00000381469727" text="Regione" />
+                  <TableColumn fx:id="clProdSolareFotovoltaico" prefWidth="282.40000915527344" text="Produzione Fotovoltaico (GWh)" />
+                  <TableColumn fx:id="clProdEolico" editable="false" prefWidth="236.00006103515625" text="Produzione Eolico (GWh)" />
                </columns>
             </TableView>
             <HBox alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="811.0" spacing="10.0">
