@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.tdp.DeSeriisRoberta.model.Regione;
-  
+   
 public class EnergiaDAO {
 	
 	public List<Regione> getAllRegioni(){

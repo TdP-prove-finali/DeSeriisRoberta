@@ -3,7 +3,7 @@ package it.polito.tdp.DeSeriisRoberta.model;
 import java.util.Objects;
  
 public class Regione {
-	
+	 
 	private String regione;
 	private double prodTotNettaEnergiaElett;
 	private double prodNettaEnergiaElettFotovoltaico;
