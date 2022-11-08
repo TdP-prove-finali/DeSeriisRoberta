@@ -61,7 +61,6 @@ import it.polito.tdp.DeSeriisRoberta.db.EnergiaDAO;
 		}
 	
 		
-		
 		public List<Regione> statoRegioni(String tipo) { 
 			regioniItalia = dao.getAllRegioni();
 			regioniSelezionate = new ArrayList<>(); 
@@ -223,7 +222,7 @@ import it.polito.tdp.DeSeriisRoberta.db.EnergiaDAO;
 					miglioreS = new LinkedList<Regione>(parzialeS);
 					aMS = paramS;
 				}
-			}
+			} 
 		
 			if(L == reg.size()) {
 				return;

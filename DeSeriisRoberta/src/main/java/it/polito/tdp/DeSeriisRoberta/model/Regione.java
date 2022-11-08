@@ -106,7 +106,7 @@ public class Regione {
 	public void setPotEffLordaFot_MW(double potEffLordaFot_MW) {
 		this.potEffLordaFotovoltaico = potEffLordaFot_MW;
 	}
-	
+	 
 	public double getPotenzaEfficienteLordaTotale_MW() {
 		return potenzaEfficienteLordaTot;
 	}

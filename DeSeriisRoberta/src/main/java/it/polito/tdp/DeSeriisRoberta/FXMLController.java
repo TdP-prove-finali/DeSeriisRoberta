@@ -89,7 +89,7 @@ public class FXMLController {
     	this.btnReset.setDisable(false);
     	
     	if(areaScelta==null) {
-    		txtResult.appendText("Seleziona un'area di riferimento");
+    		txtResult.appendText("Selezionare un'area di riferimento");
     		return;
     	}
     	
@@ -100,15 +100,15 @@ public class FXMLController {
     		tblOutput.setItems(FXCollections.observableArrayList(produzioneRegioni));
     	}
     	
-    	if(areaScelta.compareTo("Italia: PS")==0) {
+    	if(areaScelta.compareTo("Italia PS")==0) {
     		List<Regione> produzioneC = model.statoRegioni("PS");
     			tblOutput.setItems(FXCollections.observableArrayList(produzioneC));
     	}
-    	if(areaScelta.compareTo("Italia: MS")==0) {
+    	if(areaScelta.compareTo("Italia MS")==0) {
     		List<Regione> produzioneC = model.statoRegioni("MS");
     			tblOutput.setItems(FXCollections.observableArrayList(produzioneC));
     	}
-    	if(areaScelta.compareTo("Italia: IT")==0) {
+    	if(areaScelta.compareTo("Italia IT")==0) {
     		List<Regione> produzioneC = model.statoRegioni("IT");
     			tblOutput.setItems(FXCollections.observableArrayList(produzioneC));
     	}
@@ -144,12 +144,12 @@ public class FXMLController {
     		numeroComuni=Integer.parseInt(this.txtNumeroComuni.getText());
     		budgetFinanziamento=Float.parseFloat(this.txtBudget.getText());
     		if (this.boxParamRicorsione.getValue() == null) {
-    			txtResult.appendText("Selezionare il tipo di produzione da massimizzare\n");
+    			txtResult.appendText("Selezionare la fonte di energia elettrica da incrementare\n");
     			return;
     		}
     	}catch(NumberFormatException e) {
     		txtResult.clear();
-    		txtResult.appendText("Inserire numero Comuni e budget validi");
+    		txtResult.appendText("Inserire i parametri per la ricorsione");
     		return;
     	}
     	if(areaScelta==null) {
@@ -181,7 +181,7 @@ public class FXMLController {
         		txtResult.appendText("budget assegnato: "+ String.format("%,.2f", BigDecimal.valueOf(budgetAssegnato))+ " €\n");
         	}
     		
-    	}
+    	} 
     	
     	if(produzioneDi.compareTo("Eolico e Fotovoltaico")==0) {
     		float budgetAssegnato=0;
@@ -233,9 +233,9 @@ public class FXMLController {
     public void setModel(Model model) {
     	this.model = model;
     	this.cmbAreaDiRiferimento.getItems().add("Italia");
-    	this.cmbAreaDiRiferimento.getItems().add("Italia: PS");
-    	this.cmbAreaDiRiferimento.getItems().add("Italia: MS");
-    	this.cmbAreaDiRiferimento.getItems().add("Italia: IT");
+    	this.cmbAreaDiRiferimento.getItems().add("Italia PS");
+    	this.cmbAreaDiRiferimento.getItems().add("Italia MS");
+    	this.cmbAreaDiRiferimento.getItems().add("Italia IT");
     	
     	this.boxParamRicorsione.getItems().add("Eolico");
     	this.boxParamRicorsione.getItems().add("Fotovoltaico");
