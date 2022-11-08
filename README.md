@@ -8,6 +8,6 @@ Istruzioni per l'installazione e l'utilizzo:
 
 4- Modificare, all'interno della classe DBConnect, contenuta nel package db, la password di accesso al database, inserendo la propria;
 
-5- Visionare la guida all'utilizzo (URI: );
+5- Visionare la guida all'utilizzo (URI: https://youtu.be/kYK9aQlIITU);
 
 6- Eseguire la classe "Main" per avviare l'applicazione;
