@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.polito.tdp.DeSeriisRoberta.db.EnergiaDAO;
-
+ 
 	public class Model {
 	
 		EnergiaDAO dao; 
